@@ -1,0 +1,32 @@
+name: Flutter Web
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    name: Build Web
+    env:
+      my_secret: ${{secrets.commit_secret}}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - uses: subosito/flutter-action@v1
+        with:
+          channel: 'dev'
+      - run: flutter config --enable-web
+      - run: flutter pub get
+      - run: flutter build web --release
+      - run: |
+          cd build/web
+          git init
+          # 改成你的提交邮箱
+          git config --global user.email night_days@163.com
+          # 改成你的提交用户名
+          git config --global user.name nineDays2019
+          git status
+          git remote add origin https://${{secrets.commit_secret}}@github.com/Jormunganders/DysonSpherecCalculator.git
+          git checkout -b pages
+          git add --all
+          git commit -m "update"
+          git push origin gh-pages -f
