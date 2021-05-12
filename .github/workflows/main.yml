@@ -24,7 +24,7 @@ jobs:
           git config --global user.name nineDays2019
           git status
           git remote add origin https://${{secrets.commit_secret}}@github.com/Jormunganders/DysonSpherecCalculator.git
-          git checkout -b pages
+          git checkout -b gh-pages
           git add .
           git commit -m "update"
-          git push origin pages -f
+          git push origin gh-pages -f
