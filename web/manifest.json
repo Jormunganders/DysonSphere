@@ -1,11 +1,11 @@
 {
-    "name": "dyson_spherec_calculator",
-    "short_name": "dyson_spherec_calculator",
+    "name": "香瓜",
+    "short_name": "香瓜",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A  calculator for the game "Dyson Sphere Program".",
+    "description": "春风得意马蹄疾，一日看尽长安花。",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
