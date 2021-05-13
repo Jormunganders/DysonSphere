@@ -31,11 +31,38 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(HOME_PAGE_NAME),
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(HOME_PAGE_NAME),
+          bottom: TabBar(
+            tabs: [
+              Tab(
+                icon: Icon(Icons.directions_car),
+                text: "汽车",
+              ),
+              Tab(
+                icon: Icon(Icons.directions_bike),
+                text: "自行车",
+              ),
+              Tab(
+                icon: Icon(Icons.directions_boat),
+                text: '轮船',
+              ),
+            ],
+          ),
+        ),
+        body: TabBarView(
+          children: [
+            TimePage(),
+            DemoPage(),
+            Center(
+              child: Text("Nice"),
+            )
+          ],
+        ),
       ),
-      body: TimePage(),
     );
   }
 }
