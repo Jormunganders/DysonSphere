@@ -11,7 +11,7 @@ class TimePage extends StatefulWidget {
 }
 
 class _TimePageState extends State<TimePage> {
-  Timer _timer;
+  late Timer _timer;
   var _duration = Duration(seconds: 1);
 
   @override

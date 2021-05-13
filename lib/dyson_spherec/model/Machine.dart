@@ -1,7 +1,7 @@
 import 'Resource.dart';
 
 class Machine {
-  String mName; // 机器名称
+  String? mName; // 机器名称
 }
 
 class Producer extends Machine {}
@@ -14,10 +14,10 @@ class Converter extends Machine {}
  * 公式
  */
 abstract class Formula<M extends Machine> {
-  List<ResourceBundle> mInputResources;
-  List<ResourceBundle> mOutputResources;
-  int time;
-  M mMachine;
+  List<ResourceBundle>? mInputResources;
+  List<ResourceBundle>? mOutputResources;
+  int? time;
+  M? mMachine;
 }
 
 /**

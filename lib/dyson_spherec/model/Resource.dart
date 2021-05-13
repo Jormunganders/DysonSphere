@@ -1,8 +1,8 @@
 class Resource {
-  String name;
+  String? name;
 }
 
 class ResourceBundle {
-  Resource mResource;
-  int count;
+  Resource? mResource;
+  int? count;
 }

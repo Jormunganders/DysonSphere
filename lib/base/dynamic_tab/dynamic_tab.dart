@@ -4,13 +4,13 @@ class DynamicTab {
   final int key;
   final String name;
   final Widget icon;
-  Widget page;
+  Widget? page;
   final Map<String, Object> params;
   final PageCreatFunc pageCreatFunc;
 
   DynamicTab(this.key, this.name, this.icon, this.params, this.pageCreatFunc);
 
-  Widget getPage() {
+  Widget? getPage() {
     if (page == null) {
       page = pageCreatFunc(params);
     }
