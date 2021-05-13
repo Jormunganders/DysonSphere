@@ -1,4 +1,4 @@
-import 'package:dyson_spherec_calculator/model/Resource.dart';
+import 'Resource.dart';
 
 class Machine {
   String mName; // 机器名称

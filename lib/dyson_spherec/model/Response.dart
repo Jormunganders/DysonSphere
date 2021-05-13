@@ -1,4 +1,5 @@
-import 'package:dyson_spherec_calculator/model/Machine.dart';
+
+import 'Machine.dart';
 
 class Response {
   static List<Producer> mProducers;
