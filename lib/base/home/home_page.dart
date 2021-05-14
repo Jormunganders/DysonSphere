@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 
 const HOME_PAGE_NAME = "首页";
 
-/// todo: 之后进行分离
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
@@ -45,6 +44,24 @@ class _HomePageState extends State<HomePage> {
           children: tabKeyList
               .map((key) => DysonTabStore.TAB_MAP[key]!.getPage()!)
               .toList(),
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.all(0.0),
+            children: [
+              DrawerHeader(
+                child: Center(
+                  child: Text("待施工"),
+                ),
+                decoration: BoxDecoration(color: Colors.blue),
+              ),
+              ListTile(
+                title: Text("设置"),
+                leading: Icon(Icons.settings),
+                trailing: Icon(Icons.keyboard_arrow_right),
+              )
+            ],
+          ),
         ),
       ),
     );
