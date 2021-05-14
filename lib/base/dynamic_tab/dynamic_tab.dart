@@ -5,7 +5,7 @@ class DynamicTab {
   final String name;
   final Widget icon;
   Widget? page;
-  final Map<String, Object> params;
+  final Map<String, Object>? params;
   final PageCreatFunc pageCreatFunc;
 
   DynamicTab(this.key, this.name, this.icon, this.params, this.pageCreatFunc);
@@ -18,5 +18,4 @@ class DynamicTab {
   }
 }
 
-typedef PageCreatFunc = Widget Function(Map<String, Object>);
-
+typedef PageCreatFunc = Widget Function(Map<String, Object>?);
