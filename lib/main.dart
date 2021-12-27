@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dyson_spherec_calculator/base/values.dart';
 
-import 'base/home/dyson_page.dart';
+import 'base/pages/dyson_page.dart';
 
 void main() {
   runApp(MyApp());

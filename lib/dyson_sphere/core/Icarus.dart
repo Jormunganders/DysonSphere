@@ -1,4 +1,4 @@
-import 'package:dyson_spherec_calculator/dyson_spherec/model/Resource.dart';
+import 'package:dyson_spherec_calculator/dyson_sphere/model/Resource.dart';
 
 class Icarus {
   /**

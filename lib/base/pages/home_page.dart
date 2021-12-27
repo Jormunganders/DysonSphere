@@ -1,6 +1,5 @@
 import 'package:dyson_spherec_calculator/base/dynamic_tab/dynamic_tab.dart';
 import 'package:dyson_spherec_calculator/base/dynamic_tab/tab_store.dart';
-import 'package:dyson_spherec_calculator/sky/pages/time_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
