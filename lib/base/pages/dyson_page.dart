@@ -27,7 +27,10 @@ class _DysonPageState extends State<DysonPage> {
         bottomNavigationBar: BottomNavigationBar(
           items: tabKeyList.map((key) {
             DynamicTab tab = DysonTabStore.TAB_MAP[key]!;
-            return BottomNavigationBarItem(icon: tab.icon, label: tab.name);
+            return BottomNavigationBarItem(
+              icon: tab.icon ?? Icon(Icons.android),
+              label: tab.name,
+            );
           }).toList(),
           currentIndex: _currentIndex,
           fixedColor: Colors.blue,

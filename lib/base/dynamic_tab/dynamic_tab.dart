@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class DynamicTab {
   final int key;
   final String name;
-  final Widget icon;
+  final Widget? icon;
   Widget? page;
   final Map<String, Object>? params;
   final PageCreatFunc pageCreatFunc;

@@ -28,7 +28,12 @@ class _TimePageState extends State<TimePage> {
       child: Center(
         child: Text(
           TimeUtils.parseDateTime(DateTime.now()),
-          style: Theme.of(context).textTheme.headline4,
+          style: TextStyle(
+            color: Colors.redAccent,
+            fontSize: 30.0,
+            fontWeight: FontWeight.w100,
+            background: new Paint()..color = Colors.yellow,
+          ),
         ),
       ),
       color: Colors.white,

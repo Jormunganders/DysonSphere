@@ -28,17 +28,34 @@ class _HomePageState extends State<HomePage> {
       length: tabKeyList.length,
       child: Scaffold(
         appBar: AppBar(
-          title: Text(HOME_PAGE_NAME),
-          bottom: TabBar(
-            tabs: tabKeyList.map((key) {
-              DynamicTab tab = DysonTabStore.TAB_MAP[key]!;
-              return Tab(
-                icon: tab.icon,
-                text: tab.name,
-              );
-            }).toList(),
-          ),
-        ),
+            title: Text(HOME_PAGE_NAME),
+            bottom: TabBar(
+              tabs: tabKeyList.map((key) {
+                DynamicTab tab = DysonTabStore.TAB_MAP[key]!;
+                return Tab(
+                  icon: tab.icon,
+                  text: tab.name,
+                );
+              }).toList(),
+              isScrollable: tabKeyList.length > 3,
+            ),
+            actions: [
+              Padding(
+                  padding: EdgeInsets.only(right: 20.0),
+                  child: GestureDetector(
+                    onTap: () {
+                      final snackBar = SnackBar(
+                        content: const Text('Hello, World!'),
+                        action: SnackBarAction(
+                          label: 'Good.',
+                          onPressed: () {},
+                        ),
+                      );
+                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    },
+                    child: Icon(Icons.airplanemode_on),
+                  )),
+            ]),
         body: TabBarView(
           children: tabKeyList
               .map((key) => DysonTabStore.TAB_MAP[key]!.getPage()!)
@@ -46,7 +63,7 @@ class _HomePageState extends State<HomePage> {
         ),
         drawer: Drawer(
           child: ListView(
-            padding: EdgeInsets.all(0.0),
+            padding: EdgeInsets.zero,
             children: [
               DrawerHeader(
                 child: Center(
@@ -55,9 +72,16 @@ class _HomePageState extends State<HomePage> {
                 decoration: BoxDecoration(color: Colors.blue),
               ),
               ListTile(
-                title: Text("设置"),
-                leading: Icon(Icons.settings),
-                trailing: Icon(Icons.keyboard_arrow_right),
+                  title: Text("设置"),
+                  leading: Icon(Icons.settings),
+                  trailing: Icon(Icons.keyboard_arrow_right),
+                  onTap: () {}),
+              ListTile(
+                title: Text("关闭"),
+                onTap: () {
+                  // close the drawer
+                  Navigator.pop(context);
+                },
               )
             ],
           ),
