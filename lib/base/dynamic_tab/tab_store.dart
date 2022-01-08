@@ -13,7 +13,7 @@ class DysonTabStore {
   static List<int> getTopTabList() {
     return [
       TabKey.Time.index,
-      TabKey.Aggregation.index,
+      TabKey.Demo.index,
       TabKey.AnimDemo.index,
       TabKey.AnimDemo2.index
     ];
@@ -22,7 +22,7 @@ class DysonTabStore {
   static List<int> getBottomTabList() {
     return [
       TabKey.Home.index,
-      TabKey.Demo.index,
+      TabKey.Aggregation.index,
       TabKey.DownloadButtonDemo.index
     ];
   }
