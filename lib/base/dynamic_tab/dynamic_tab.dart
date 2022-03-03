@@ -12,7 +12,7 @@ class DynamicTab {
 
   Widget? getPage() {
     if (page == null) {
-      page = pageCreatFunc(params);
+      return pageCreatFunc(params);
     }
     return page;
   }

@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../colors.dart';
 import '../strings.dart';
 
 // ignore: must_be_immutable
 class EmptyPage extends StatelessWidget {
-  String message;
+  final String message;
 
-  EmptyPage({this.message = "还没有内容哦"});
+  const EmptyPage({this.message = "还没有内容哦"});
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +109,7 @@ class NoNetPage extends StatelessWidget {
           ),
           Container(
             margin: EdgeInsets.only(top: 20),
-            child: OutlineButton(
+            child: OutlinedButton(
               onPressed: onPress,
               child: Text(
                 buttonText,

@@ -1,8 +1,10 @@
 import 'package:dyson_spherec_calculator/base/pages/aggregation_page.dart';
 import 'package:dyson_spherec_calculator/base/pages/home_page.dart';
+import 'package:dyson_spherec_calculator/msi/msi_page.dart';
 import 'package:dyson_spherec_calculator/sky/pages/time_page.dart';
 import 'package:dyson_spherec_calculator/study/anim_page.dart';
 import 'package:dyson_spherec_calculator/study/download_button.dart';
+import 'package:dyson_spherec_calculator/tally/tally_page.dart';
 import 'package:flutter/material.dart';
 
 import 'dynamic_tab.dart';
@@ -15,15 +17,17 @@ class DysonTabStore {
       TabKey.Time.index,
       TabKey.Demo.index,
       TabKey.AnimDemo.index,
-      TabKey.AnimDemo2.index
+      TabKey.AnimDemo2.index,
     ];
   }
 
   static List<int> getBottomTabList() {
     return [
       TabKey.Home.index,
+      TabKey.Tally.index,
+      TabKey.MSI.index,
       TabKey.Aggregation.index,
-      TabKey.DownloadButtonDemo.index
+      TabKey.DownloadButtonDemo.index,
     ];
   }
 
@@ -48,6 +52,18 @@ class DysonTabStore {
         name: "列表",
         icon: Icon(Icons.download),
         page: ExampleCupertinoDownloadButton()),
+    _quickCreateDynamicTab(
+      TabKey.Tally.index,
+      name: "内库",
+      icon: Icon(Icons.wallet_giftcard),
+      page: TallyPage(),
+    ),
+    _quickCreateDynamicTab(
+      TabKey.MSI.index,
+      name: "MSI",
+      icon: Icon(Icons.bolt),
+      page: MSIPage(),
+    )
   ];
 
   static DynamicTab _quickCreateDynamicTab(int key,
@@ -72,4 +88,6 @@ enum TabKey {
   AnimDemo,
   AnimDemo2,
   DownloadButtonDemo,
+  Tally,
+  MSI,
 }

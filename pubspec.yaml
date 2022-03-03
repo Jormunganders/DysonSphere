@@ -12,6 +12,8 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   provider: ^5.0.0
+  leancloud_storage: ^0.7.8
+  flutter_dotenv: ^5.0.2
 
 dev_dependencies:
   flutter_test:
@@ -20,6 +22,7 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   assets:
+    - .env
     - graphics/image_empty.png
     - graphics/image_no_net.png
     - graphics/image_error.png

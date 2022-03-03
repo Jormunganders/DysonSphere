@@ -1,23 +1,27 @@
 import 'package:dyson_spherec_calculator/base/dynamic_tab/dynamic_tab.dart';
+import 'package:dyson_spherec_calculator/base/dynamic_tab/tab_manager.dart';
 import 'package:dyson_spherec_calculator/base/dynamic_tab/tab_store.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dyson_spherec_calculator/base/utils/ext.dart';
 import 'package:flutter/material.dart';
 
 class DysonPage extends StatefulWidget {
+  final int initSelectIndex;
+
+  DysonPage({this.initSelectIndex = 0});
+
   @override
   State<StatefulWidget> createState() => _DysonPageState();
 }
 
 class _DysonPageState extends State<DysonPage> {
-  // todo 支持传入
-  var _currentIndex = 0;
-  var tabKeyList = [];
+  var _tabManager = TabPageManager();
 
   @override
   void initState() {
-    tabKeyList = DysonTabStore.getBottomTabList()
+    _tabManager.updateData(DysonTabStore.getBottomTabList()
         .where((key) => DysonTabStore.TAB_MAP.containsKey(key))
-        .toList();
+        .toList());
+    _tabManager.currentIndex = widget.initSelectIndex;
     super.initState();
   }
 
@@ -25,23 +29,30 @@ class _DysonPageState extends State<DysonPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: BottomNavigationBar(
-          items: tabKeyList.map((key) {
-            DynamicTab tab = DysonTabStore.TAB_MAP[key]!;
-            return BottomNavigationBarItem(
-              icon: tab.icon ?? Icon(Icons.android),
-              label: tab.name,
-            );
-          }).toList(),
-          currentIndex: _currentIndex,
+          items: _tabManager
+              .getTabList()
+              .map((tabWrapper) => BottomNavigationBarItem(
+                  icon: tabWrapper.icon, label: tabWrapper.name))
+              .toList(),
+          currentIndex: _tabManager.currentIndex,
           fixedColor: Colors.blue,
+          unselectedItemColor: Colors.black26,
           onTap: onItemSelect,
         ),
-        body: DysonTabStore.TAB_MAP[tabKeyList[_currentIndex]]!.getPage());
+        body: _tabManager.getCurrentPage().realWidget.apply((e) => {print(e)}));
   }
 
   void onItemSelect(int index) {
     setState(() {
-      _currentIndex = index;
+      _tabManager.currentIndex = index;
     });
   }
 }
+
+/*tabKeyList.map((key) {
+                DynamicTab tab = DysonTabStore.TAB_MAP[key]!;
+                return Tab(
+                  icon: tab.icon,
+                  text: tab.name,
+                );
+              }).toList()*/

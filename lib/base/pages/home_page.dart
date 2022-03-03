@@ -1,4 +1,5 @@
 import 'package:dyson_spherec_calculator/base/dynamic_tab/dynamic_tab.dart';
+import 'package:dyson_spherec_calculator/base/dynamic_tab/tab_manager.dart';
 import 'package:dyson_spherec_calculator/base/dynamic_tab/tab_store.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,38 +7,44 @@ import 'package:flutter/material.dart';
 const HOME_PAGE_NAME = "首页";
 
 class HomePage extends StatefulWidget {
+  final int initSelectIndex;
+
+  HomePage({this.initSelectIndex = 0});
+
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 // 顶导三个 Tab 的设置
 class _HomePageState extends State<HomePage> {
-  var tabKeyList = [];
+  var _tabManager = TabPageManager();
 
   @override
   void initState() {
-    tabKeyList = DysonTabStore.getTopTabList()
+    _tabManager.updateData(DysonTabStore.getTopTabList()
         .where((key) => DysonTabStore.TAB_MAP.containsKey(key))
-        .toList();
+        .toList());
+    _tabManager.currentIndex = widget.initSelectIndex;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    var length = _tabManager.getTabList().length;
     return DefaultTabController(
-      length: tabKeyList.length,
+      length: length,
       child: Scaffold(
         appBar: AppBar(
             title: Text(HOME_PAGE_NAME),
             bottom: TabBar(
-              tabs: tabKeyList.map((key) {
-                DynamicTab tab = DysonTabStore.TAB_MAP[key]!;
-                return Tab(
-                  icon: tab.icon,
-                  text: tab.name,
-                );
-              }).toList(),
-              isScrollable: tabKeyList.length > 3,
+              tabs: _tabManager
+                  .getTabList()
+                  .map((tabWrapper) => Tab(
+                        icon: tabWrapper.icon,
+                        text: tabWrapper.name,
+                      ))
+                  .toList(),
+              isScrollable: length > 3,
             ),
             actions: [
               Padding(
@@ -57,9 +64,7 @@ class _HomePageState extends State<HomePage> {
                   )),
             ]),
         body: TabBarView(
-          children: tabKeyList
-              .map((key) => DysonTabStore.TAB_MAP[key]!.getPage()!)
-              .toList(),
+          children: _tabManager.getPageList().map((pageWrapper) => pageWrapper.realWidget).toList(),
         ),
         drawer: Drawer(
           child: ListView(
