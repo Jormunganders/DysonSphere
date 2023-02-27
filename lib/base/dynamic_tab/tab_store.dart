@@ -1,6 +1,7 @@
 import 'package:dyson_spherec_calculator/base/pages/aggregation_page.dart';
 import 'package:dyson_spherec_calculator/base/pages/home_page.dart';
 import 'package:dyson_spherec_calculator/msi/msi_page.dart';
+import 'package:dyson_spherec_calculator/sky/pages/mqtt_page.dart';
 import 'package:dyson_spherec_calculator/sky/pages/time_page.dart';
 import 'package:dyson_spherec_calculator/study/anim_page.dart';
 import 'package:dyson_spherec_calculator/study/download_button.dart';
@@ -14,6 +15,7 @@ class DysonTabStore {
 
   static List<int> getTopTabList() {
     return [
+      TabKey.MQTT.index,
       TabKey.Time.index,
       TabKey.Demo.index,
       TabKey.AnimDemo.index,
@@ -63,7 +65,13 @@ class DysonTabStore {
       name: "MSI",
       icon: Icon(Icons.bolt),
       page: MSIPage(),
-    )
+    ),
+    _quickCreateDynamicTab(
+      TabKey.MQTT.index,
+      name: "MQTT",
+      icon: Icon(Icons.device_hub),
+      page: MQTTPage(),
+    ),
   ];
 
   static DynamicTab _quickCreateDynamicTab(int key,
@@ -90,4 +98,5 @@ enum TabKey {
   DownloadButtonDemo,
   Tally,
   MSI,
+  MQTT,
 }

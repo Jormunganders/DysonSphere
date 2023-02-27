@@ -12,8 +12,9 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.2
   provider: ^5.0.0
-  leancloud_storage: ^0.7.8
+  leancloud_storage: ^0.7.10
   flutter_dotenv: ^5.0.2
+  mqtt_client: ^9.7.4
 
 dev_dependencies:
   flutter_test:
