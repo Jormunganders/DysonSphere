@@ -1,11 +1,11 @@
-import 'package:dyson_spherec_calculator/base/pages/aggregation_page.dart';
-import 'package:dyson_spherec_calculator/base/pages/home_page.dart';
-import 'package:dyson_spherec_calculator/msi/msi_page.dart';
-import 'package:dyson_spherec_calculator/sky/pages/mqtt_page.dart';
-import 'package:dyson_spherec_calculator/sky/pages/time_page.dart';
-import 'package:dyson_spherec_calculator/study/anim_page.dart';
-import 'package:dyson_spherec_calculator/study/download_button.dart';
-import 'package:dyson_spherec_calculator/tally/tally_page.dart';
+import 'package:dyson_sphere/base/pages/aggregation_page.dart';
+import 'package:dyson_sphere/base/pages/home_page.dart';
+import 'package:dyson_sphere/msi/msi_page.dart';
+import 'package:dyson_sphere/sky/pages/mqtt_page.dart';
+import 'package:dyson_sphere/sky/pages/time_page.dart';
+import 'package:dyson_sphere/study/anim_page.dart';
+import 'package:dyson_sphere/study/download_button.dart';
+import 'package:dyson_sphere/tally/tally_page.dart';
 import 'package:flutter/material.dart';
 
 import 'dynamic_tab.dart';

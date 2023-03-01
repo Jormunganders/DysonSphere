@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dyson_spherec_calculator/base/utils/time_utils.dart';
+import 'package:dyson_sphere/base/utils/time_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

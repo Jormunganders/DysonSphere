@@ -1,7 +1,28 @@
-import 'package:dyson_spherec_calculator/sky/mqtt/widgets/lcd_1602_display_control_view.dart';
+import 'package:dyson_sphere/sky/mqtt/widgets/lcd_1602_display_control_view.dart';
 import 'package:flutter/material.dart';
+import 'package:dyson_sphere/sky/mqtt/mqtt_config.dart';
+import 'package:dyson_sphere/sky/mqtt/mqtt_factory.dart';
 
-class MQTTPage extends StatelessWidget {
+class MQTTPage extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _MQTTState();
+}
+
+class _MQTTState extends State<MQTTPage> {
+  MQTTManager? mqttManager;
+
+  @override
+  void initState() {
+    MQTTConfig.waitInitialized(() {
+      if (MQTTConfig.isInitialized()) {
+        mqttManager = MQTTManager.getInstance(
+            MQTTConfig.serverUrl, MQTTConfig.port, "Dyson");
+        mqttManager!.connect(MQTTConfig.username, MQTTConfig.password);
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -18,5 +39,11 @@ class MQTTPage extends StatelessWidget {
         )
       ],
     );
+  }
+
+  @override
+  void dispose() {
+    mqttManager?.disconnect();
+    super.dispose();
   }
 }

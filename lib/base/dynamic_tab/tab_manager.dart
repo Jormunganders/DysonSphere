@@ -4,8 +4,8 @@
 // 当前选中的页面 index
 import 'dart:collection';
 
-import 'package:dyson_spherec_calculator/base/dynamic_tab/dynamic_tab.dart';
-import 'package:dyson_spherec_calculator/base/dynamic_tab/tab_store.dart';
+import 'package:dyson_sphere/base/dynamic_tab/dynamic_tab.dart';
+import 'package:dyson_sphere/base/dynamic_tab/tab_store.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/common_page.dart';

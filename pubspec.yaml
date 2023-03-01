@@ -1,4 +1,4 @@
-name: dyson_spherec_calculator
+name: dyson_sphere
 description: A  calculator for the game "Dyson Sphere Program".
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -14,7 +14,7 @@ dependencies:
   provider: ^5.0.0
   leancloud_storage: ^0.7.10
   flutter_dotenv: ^5.0.2
-  mqtt_client: ^9.7.4
+  mqtt5_client: ^3.3.7
 
 dev_dependencies:
   flutter_test:

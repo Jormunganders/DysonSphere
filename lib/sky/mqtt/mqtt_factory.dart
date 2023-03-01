@@ -1,83 +1,142 @@
-import 'package:mqtt_client/mqtt_client.dart';
+import 'package:mqtt5_client/mqtt5_client.dart';
+import 'package:mqtt5_client/mqtt5_server_client.dart';
+import 'package:typed_data/typed_buffers.dart';
 
-class MQTTFactory {
-  final MqttClient _client = MqttClient.withPort(
-      "", "DysonSphere", 1883);
+typedef ReceiveMessageCallback = void Function(String topic, String message);
 
-  MQTTFactory._() {
-    _client
-      ..logging(on: true)
-      ..onConnected = onConnected
-      ..onDisconnected = onDisconnected
-      ..onUnsubscribed = onUnsubscribed
-      ..onSubscribed = onSubscribed
-      ..onSubscribeFail = onSubscribeFail
-      ..pongCallback = pong;
+/// 对 mqtt5 的封装
+class MQTTManager {
+  late final MqttServerClient _client;
+
+  static MQTTManager? _instance;
+
+  late final String _clientId;
+
+  bool _connected = false;
+
+  Set<String> _subscribeTopics = Set();
+
+  bool isConnected() => _connected;
+
+  MQTTManager._(String server, int port, String clientId) {
+    this._clientId = clientId;
+    _client = MqttServerClient.withPort(server, clientId, port)
+      ..onConnected = _onConnected
+      ..onSubscribed = _onSubscribed
+      ..onSubscribeFail = _onSubscribeFail
+      ..onUnsubscribed = _onUnSubscribed
+      ..pongCallback = _onPong
+      ..logging(on: false)
+      ..secure = true
+      ..onBadCertificate = (dynamic a) => true;
   }
 
-  static MQTTFactory? _instance;
-
-  static MQTTFactory getInstance() {
+  static MQTTManager getInstance(String server, int port, String clientId) {
     if (_instance == null) {
-      _instance = MQTTFactory._();
+      _instance = MQTTManager._(server, port, clientId);
     }
     return _instance!;
   }
 
-  Future<MqttClient> connect() async {
-    final connMessage = MqttConnectMessage()
-        .authenticateAs('', '')
-        .keepAliveFor(60)
-        .withWillTopic('willtopic')
-        .withWillMessage('Will message')
-        .startClean()
-        .withWillQos(MqttQos.atLeastOnce);
-    _client.connectionMessage = connMessage;
-    try {
-      await _client.connect();
-    } catch (e) {
-      print('Exception: $e');
-      _client.disconnect();
+  static MQTTManager? tryGetInstance() => _instance;
+
+  _onConnected() {
+    _log("onConnected");
+    _connected = true;
+  }
+
+  _onSubscribed(MqttSubscription subscription) {
+    _log("onSubscribed, topic:${subscription.topic}");
+    var topic = subscription.topic.rawTopic;
+    if (topic != null) {
+      _subscribeTopics.add(topic);
     }
+  }
 
-    _client.updates?.listen((List<MqttReceivedMessage<MqttMessage>> c) {
-      final MqttMessage message = c[0].payload;
-      final payload =
-          MqttPublishPayload.bytesToStringAsString(message.payload.message);
+  _onUnSubscribed(MqttSubscription subscription) {
+    _log("onUnSubscribed,topic:${subscription.topic}");
+    var topic = subscription.topic.rawTopic;
+    if (topic != null) {
+      _subscribeTopics.remove(topic);
+    }
+  }
 
-      print('Received message:$payload from topic: ${c[0].topic}>');
+  _onSubscribeFail(MqttSubscription subscription) {
+    _log("onSubscribeFail,topic:${subscription.topic}");
+  }
+
+  void _onPong() {
+    print('onPong');
+  }
+
+  void _log(String message) {
+    // todo 判断是否为 debug 模式
+    print("口======[]=====================>: $message");
+  }
+
+  /// 断开连接
+  void disconnect() {
+    _log("Disconnect manually");
+    _subscribeTopics.forEach((element) {
+      unsubscribeMessage(element);
     });
-
-    return _client;
+    _client.disconnect();
+    _connected = false;
   }
 
-  // 连接成功
-  void onConnected() {
-    print('Connected');
+  /// 发送信息
+  /// message 只支持英文和数字
+  int publishMessage(String topic, String message) {
+    _log("publishMessage: topic: $topic, message: $message");
+    Uint8Buffer buffer = Uint8Buffer();
+    var codeUnit = message.codeUnits;
+    buffer.addAll(codeUnit);
+    return _client.publishMessage(topic, MqttQos.atLeastOnce, buffer);
   }
 
-  // 连接断开
-  void onDisconnected() {
-    print('Disconnected');
+  Future<MqttConnectionStatus?> connect(String username, String password) {
+    final connectMessage = MqttConnectMessage()
+        .withClientIdentifier(_clientId)
+        .keepAliveFor(90)
+        .withWillTopic("will_topic")
+        .withWillQos(MqttQos.atLeastOnce)
+        .startClean();
+
+    _client.connectionMessage = connectMessage;
+    _log("Start connect!");
+    return _client.connect(username, password);
   }
 
-  // 订阅主题成功
-  void onSubscribed(String topic) {
-    print('Subscribed topic: $topic');
+  /// 对某个 topic 进行订阅
+  subscribeMessage(String topic, ReceiveMessageCallback? callback) {
+    var subscription = _client.subscribe(topic, MqttQos.atLeastOnce);
+    _client.updates.listen((event) {
+      final MqttMessage message = event[0].payload;
+      if (message is MqttPublishMessage) {
+        final msg = MqttUtilities.bytesToStringAsString(
+            message.payload.message ?? Uint8Buffer());
+        final theTopic = event[0].topic;
+        _log("Received message: [$msg],topic: [$theTopic]");
+        if (callback != null) {
+          callback(theTopic ?? topic, msg);
+        }
+      }
+    });
   }
 
-  // 订阅主题失败
-  void onSubscribeFail(String topic) {
-    print('Failed to subscribe $topic');
+  /// 取消订阅
+  void unsubscribeMessage(String topic) {
+    _client.unsubscribeStringTopic(topic);
   }
+}
 
-  // 成功取消订阅
-  void onUnsubscribed(String? topic) {
-    print('Unsubscribed topic: $topic');
+void main() async {
+  var manager = MQTTManager.getInstance(
+      "k666eccb.ala.cn-hangzhou.emqxsl.cn", 8883, "Dyson");
+  var status = await manager.connect("Breathe", "helloworld");
+  if (status?.reasonCode == MqttConnectReasonCode.success) {
+    // manager.publishMessage("hello", "helloworld123456");
+    manager.subscribeMessage("world", (topic, message) => {});
   }
-
-  // 收到 PING 响应
-  void pong() {
-    print('Ping response client callback invoked');
-  }
+  // manager.disconnect();
 }

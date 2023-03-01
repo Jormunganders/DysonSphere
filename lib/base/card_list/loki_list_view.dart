@@ -1,5 +1,4 @@
-import 'package:dyson_spherec_calculator/base/pages/common_page.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:dyson_sphere/base/pages/common_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -79,7 +78,7 @@ class _LokiState extends State<LokiListView> {
   buildEmptyPage() => EmptyPage();
 
   buildLoadingPage() =>
-      SpinKitRotatingPlain(color: Theme.of(context).accentColor);
+      SpinKitRotatingPlain(color: Theme.of(context).focusColor);
 
   // todo
   buildErrorPage() => ErrorPage(

@@ -1,0 +1,1 @@
+const LCD1602_UPDATE_MESSAGE = "1602_message";
