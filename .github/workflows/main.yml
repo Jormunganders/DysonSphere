@@ -10,7 +10,9 @@ jobs:
       my_secret: ${{secrets.commit_secret}}
     runs-on: ubuntu-latest
     steps:
-      - run: touch .env
+      - run: |
+          touch ./.env
+          ls -a
       - uses: actions/checkout@v1
       - uses: subosito/flutter-action@v2
         with:
